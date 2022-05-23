@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script>
+    async function test() {
+        //Required Data: username & password
+        //
+        let data = {
+            title: "Chemie",
+            category: "todo",
+            urgency: "sehr dringend",
+            color: "blue",
+            board_id: 1,
+            user_id: 1
+
+        }
+        console.log("Object das übergeben wird: ", data);
+        let response = await fetch("http://127.0.0.1:8000/task/add/", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+
+            },
+            body: JSON.stringify(data)
+        })
+        let result = await response.json()
+        console.log("Response", result);
+
+        //Object { token: "43ea02aefdddcedd5115a8ca31b28672f54105a3" }
+        // let data = {
+        //     board_id: 1
+        // }
+        // let response = await fetch("http://127.0.0.1:8000/task/?board_id=2", {
+        //     method: "GET",
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        // let result = await response.json()
+        // console.log(result)
+    }
+</script>
+
+<body onload="test()">
+    <h1>Test</h1>
+</body>
+
+</html>

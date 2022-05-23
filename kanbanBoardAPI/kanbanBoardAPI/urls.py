@@ -13,9 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
+
+from kanbanBoard.views import get_board, get_task, post_board, post_task
+
+from kanbanBoard.views import testHtml
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("login/", obtain_auth_token), 
+    path("test/", testHtml), 
+    path("board/", get_board), 
+    path("task/", get_task), 
+    path("board/add/", post_board), 
+    path("task/add/", post_task), 
+
 ]
