@@ -81,7 +81,7 @@ def post_board(request):
 @csrf_exempt
 def post_task(request):
     if request.method == "POST":
-        pass
+        
         #request.POS
 
         #title = request.POST.get("title")
