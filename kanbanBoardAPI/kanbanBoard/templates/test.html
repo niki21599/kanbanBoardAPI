@@ -10,41 +10,25 @@
 
 <script>
     async function test() {
-        //Required Data: username & password
-        //
-        let data = {
-            title: "Chemie",
-            category: "todo",
-            urgency: "sehr dringend",
-            color: "blue",
-            board_id: 1,
-            user_id: 1
 
-        }
-        console.log("Object das übergeben wird: ", data);
-        let response = await fetch("http://127.0.0.1:8000/task/add/", {
+        //Get the Token of authenticated User: 
+        let formData = new FormData()
+        formData.append("username", "Horst2")
+        formData.append("password", "Sommer01")
+        formData.append("password_repeat", "Sommer01")
+        formData.append("email", "Horst@gmail.com")
+        formData.append("first_name", "Horst")
+        formData.append("last_name", "Seehofer")
+
+
+        let response = await fetch("/register/", {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-
-            },
-            body: JSON.stringify(data)
+            body: formData
         })
         let result = await response.json()
         console.log("Response", result);
 
-        //Object { token: "43ea02aefdddcedd5115a8ca31b28672f54105a3" }
-        // let data = {
-        //     board_id: 1
-        // }
-        // let response = await fetch("http://127.0.0.1:8000/task/?board_id=2", {
-        //     method: "GET",
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        // let result = await response.json()
-        // console.log(result)
+
     }
 </script>
 

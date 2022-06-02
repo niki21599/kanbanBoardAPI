@@ -15,9 +15,7 @@ class Board (models.Model):
     created_at = models.DateField(default=date.today)
     name = models.CharField(max_length=500)
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
-    #User can have more than one Board
-    #users = models.ManyToManyField(settings.AUTH_USER_MODEL)
-    # Siehe hier many-to-many relationship https://docs.djangoproject.com/en/4.0/topics/db/examples/many_to_many/
+    
     
 
 class Task (models.Model): 
@@ -27,6 +25,7 @@ class Task (models.Model):
     color = models.CharField(max_length=500)
     urgency = models.CharField(max_length=500)
     color = models.CharField(max_length=500)
+    description = models.CharField(max_length=500, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE, null=True)
 

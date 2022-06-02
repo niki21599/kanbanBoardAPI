@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
 
-from kanbanBoard.views import get_board, get_task, post_board, post_task
+from kanbanBoard.views import get_board, get_task, post_board, post_task, register, logout_view, get_users_board, get_users_task, add_user_board, remove_user_board,deleteUser, get_user, changeCategory, changeUrgency, changeUser
 
 from kanbanBoard.views import testHtml
 
@@ -30,5 +30,16 @@ urlpatterns = [
     path("task/", get_task), 
     path("board/add/", post_board), 
     path("task/add/", post_task), 
+    path("register/", register), 
+    path("logout/", logout_view), 
+    path("board/add/user/", add_user_board),
+    path("task/user/", get_users_task),
+    path("board/user/", get_users_board), 
+    path("board/remove/user/", remove_user_board),
+    path("get/user/", get_user), 
+    path("change/category/", changeCategory), 
+    path("change/urgency/", changeUrgency), 
+    path("change/user/", changeUser),
+    path("delete/user/", deleteUser), 
 
 ]
