@@ -188,7 +188,8 @@ def add_user_board(request):
         
         for user_id in user_ids: 
             board.users.add(User.objects.get(pk=user_id))
-        return HttpResponse("Users added to Board")
+        board_json = serializers.serialize("json", [board])
+        return HttpResponse(board_json, content_type='application/json')
     
 
 @api_view(['POST'])
@@ -204,7 +205,8 @@ def remove_user_board(request):
         print(user_ids)
         for user_id in user_ids: 
             board.users.remove(User.objects.get(pk=user_id))
-        return HttpResponse("Users removed from Board")        
+        board_json = serializers.serialize("json", [board])
+        return HttpResponse(board_json, content_type='application/json')        
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
@@ -229,9 +231,8 @@ def changeCategory(request):
         task.category = newCategory
         task.save()
         
-
-
-        return HttpResponse("Changed the Category") 
+        task_json = serializers.serialize("json", [task])
+        return HttpResponse(task_json, content_type='application/json')
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
@@ -244,9 +245,8 @@ def changeUrgency(request):
         task.urgency = newUrgency
         task.save()
         
-
-
-        return HttpResponse("Changed the Urgency") 
+        task_json = serializers.serialize("json", [task])
+        return HttpResponse(task_json, content_type='application/json')
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
@@ -262,7 +262,8 @@ def changeUser(request):
         
 
 
-        return HttpResponse("Changed the User") 
+        task_json = serializers.serialize("json", [task])
+        return HttpResponse(task_json, content_type='application/json')
 
 
 @api_view(['POST'])
@@ -273,4 +274,5 @@ def deleteUser(request):
         task_id = request.POST.get("task_id") 
         task = Task.objects.filter(pk=task_id)
         task.delete()
-        return HttpResponse("Deleted the Task") 
+        task_json = serializers.serialize("json", [task])
+        return HttpResponse(task_json, content_type='application/json') 
