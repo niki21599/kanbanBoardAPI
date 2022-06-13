@@ -21,18 +21,6 @@ from rest_framework.decorators import api_view, permission_classes
 
 # Create your views here.
 
-# def user_login(request): 
-#     if request.method == "POST":
-#         username = request.POST.get("username")
-#         password = request.POST.get("password")
-#     user = authenticate(username=username, password=password)
-#     if user: 
-#         login(request, user)
-#         token = Token.objects.get(User=user)
-#         print(token)
-#         return HttpResponse("You are authenticated")
-#     else:
-#         return HttpResponse("Invalid Data")
 
 
 
@@ -40,14 +28,14 @@ def testHtml(request):
     return render(request, "test.html")
 
 
-#requires TokenAuth header mit Token
+
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
 def get_board(request):
     user = request.user
     boards = Board.objects.filter(users=user)
     boards_json = serializers.serialize("json", boards)
-    # print(boards)
+    
 
 
     return HttpResponse(boards_json, content_type='application/json')
@@ -58,7 +46,7 @@ def get_board(request):
 def get_task(request):
     board_pk = request.GET["board_id"]
     print(board_pk)
-    # Get the Board via primaryKey
+    
     board = Board.objects.get(pk=board_pk)
     tasks = Task.objects.filter(board=board)
     tasks_json = serializers.serialize("json", tasks)
@@ -79,7 +67,7 @@ def post_board(request):
 
         board_json = serializers.serialize("json", [board])
         return HttpResponse(board_json, content_type='application/json')
-        #return JsonResponse(board_json, safe=False)
+        
 
     return
 
@@ -104,7 +92,7 @@ def post_task(request):
         
         task_json = serializers.serialize("json", [task])
         return HttpResponse(task_json, content_type='application/json')
-        #return JsonResponse(task_json, safe=False)
+        
         
     return
 
@@ -141,7 +129,7 @@ def register(request):
     return 
 
 def logout_view(request):
-    #Somehow provide the token in Header
+    
     request.user.auth_token.delete() 
     logout(request)
     return Response({"success": _("Successfully logged out.")},
@@ -163,13 +151,12 @@ def get_users_board(request):
 @permission_classes((IsAuthenticated, ))
 def get_users_task(request):
     board_id = request.GET.get("board_id") 
-    print(board_id)
+    
     board = Board.objects.get(pk=board_id)
-    print(board.users.all())
+    
     users = board.users.all()
     users_json = serializers.serialize("json", users)
     return HttpResponse(users_json,  content_type='application/json')
-    #return JsonResponse({"users": users_json}, safe=False)
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
@@ -179,10 +166,7 @@ def add_user_board(request):
         user_ids = request.POST.get("user_ids")
         board_id = request.POST.get("board_id")
         
-        user_ids = list(user_ids.split(","))
-        print(user_ids)
-
-        
+        user_ids = list(user_ids.split(","))        
         board = Board.objects.get(pk=board_id)
         
         
