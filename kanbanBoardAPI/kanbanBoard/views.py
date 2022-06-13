@@ -199,7 +199,6 @@ def get_user(request):
     print(user_id)
     user = User.objects.get(pk=user_id)
     user = [user]
-
     user_json = serializers.serialize("json", user)
     
     return HttpResponse(user_json,  content_type='application/json')
@@ -214,7 +213,6 @@ def changeCategory(request):
         task = Task.objects.get(pk=task_id)
         task.category = newCategory
         task.save()
-        
         task_json = serializers.serialize("json", [task])
         return HttpResponse(task_json, content_type='application/json')
 
@@ -228,7 +226,6 @@ def changeUrgency(request):
         task = Task.objects.get(pk=task_id)
         task.urgency = newUrgency
         task.save()
-        
         task_json = serializers.serialize("json", [task])
         return HttpResponse(task_json, content_type='application/json')
 
