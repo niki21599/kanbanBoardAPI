@@ -19,14 +19,9 @@ from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 
-# Create your views here.
-
-
-
 
 def testHtml(request): 
     return render(request, "test.html")
-
 
 
 @api_view(['GET'])
@@ -36,8 +31,6 @@ def get_board(request):
     boards = Board.objects.filter(users=user)
     boards_json = serializers.serialize("json", boards)
     
-
-
     return HttpResponse(boards_json, content_type='application/json')
 
 # reqiures params board_id
@@ -89,7 +82,9 @@ def post_task(request):
         board = Board.objects.get(pk=board_id)
         
         task = Task.objects.create(title=title, urgency=urgency, category=category, color=color, user=user, board=board, description=description)
-        
+       
+        # task = Task.objects.create(**request.POST) # Wenn es nicht klappt, google "Python resolve dictionary in function"
+
         task_json = serializers.serialize("json", [task])
         return HttpResponse(task_json, content_type='application/json')
         
@@ -98,9 +93,7 @@ def post_task(request):
 
 @csrf_exempt
 def register(request): 
-    if request.method == "POST":
-        
-        
+    if request.method == "POST":  
         first_name=request.POST.get("first_name")
         username=request.POST.get("username")
         last_name=request.POST.get("last_name")
@@ -139,7 +132,7 @@ def logout_view(request):
 @permission_classes((IsAuthenticated, ))
 def get_users_board(request):
     board_id = request.GET.get("board_id") 
-    print(board_id)
+    
     board = Board.objects.get(pk=board_id)
     usernames_added = board.users.all().values("username")
     not_added_users = User.objects.filter(~Q(username__in=usernames_added))
@@ -151,12 +144,11 @@ def get_users_board(request):
 @permission_classes((IsAuthenticated, ))
 def get_users_task(request):
     board_id = request.GET.get("board_id") 
-    
     board = Board.objects.get(pk=board_id)
-    
     users = board.users.all()
     users_json = serializers.serialize("json", users)
     return HttpResponse(users_json,  content_type='application/json')
+
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
@@ -165,10 +157,11 @@ def add_user_board(request):
     if request.method == "POST":
         user_ids = request.POST.get("user_ids")
         board_id = request.POST.get("board_id")
+        print("user Ids", user_ids)
+        print("board_id", board_id)
         
         user_ids = list(user_ids.split(","))        
         board = Board.objects.get(pk=board_id)
-        
         
         for user_id in user_ids: 
             board.users.add(User.objects.get(pk=user_id))
@@ -196,7 +189,7 @@ def remove_user_board(request):
 @permission_classes((IsAuthenticated, ))
 def get_user(request): 
     user_id = request.GET.get("user_id")
-    print(user_id)
+    
     user = User.objects.get(pk=user_id)
     user = [user]
     user_json = serializers.serialize("json", user)
@@ -241,8 +234,6 @@ def changeUser(request):
         task.user = newUser
         task.save()
         
-
-
         task_json = serializers.serialize("json", [task])
         return HttpResponse(task_json, content_type='application/json')
 
@@ -257,3 +248,47 @@ def deleteUser(request):
         task.delete()
         task_json = serializers.serialize("json", [task])
         return HttpResponse(task_json, content_type='application/json') 
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
+@csrf_exempt
+def add_guest_boards(request):
+    
+    if request.method == "POST":
+        user =request.user
+       
+        user1 = User.objects.get(pk=54)
+        user2 = User.objects.get(pk=55)
+        user3 = User.objects.get(pk=56)
+        # == Musk, Seehofer, Hamilton, Will Smith
+        
+        board1 = Board.objects.create(name="Projekt 1")
+        board1.users.add(request.user)
+        board1.users.add(user1)
+        board1.users.add(user2)
+        board1.users.add(user3)
+        task = Task.objects.create(title="Projekt Start ", urgency="Dringend", category="In progress", color="white", user=user, board=board1, description="lorem ipsum  ")
+        task = Task.objects.create(title="Projekt Test", urgency="Dringend", category="Testing", color="white", user=user, board=board1, description="fjsdlkjf skfjjfaslkfjksd jdkfjdksjfl k dk dkkd ")
+        task = Task.objects.create(title="Projekt Präsentation", urgency="Dringend", category="To do", color="white", user=user, board=board1, description="jfkd dkjfsj kjdfjlsfjfj kdfj sjj k ")
+
+        board2 = Board.objects.create(name="Projekt 2")
+        board2.users.add(request.user)
+        board2.users.add(user1)
+        board2.users.add(user2)
+        board2.users.add(user3)
+        task = Task.objects.create(title="Erstellen der Website", urgency="Dringend", category="Done", color="white", user=user, board=board2, description="fjsdlkjf skfjjfaslkfjksd jdkfjdksjfl k dk dkkd ")
+        task = Task.objects.create(title="Hosting der Website", urgency="Dringend", category="In progress", color="white", user=user, board=board2, description="fjsdlkjf skfjjfaslkfjksd jdkfjdksjfl k dk dkkd ")
+
+        board3 = Board.objects.create(name="Projekt 3")
+        board3.users.add(request.user)
+        board3.users.add(user1)
+        board3.users.add(user2)
+        board3.users.add(user3)
+        task = Task.objects.create(title="Verteilung der Aufgaben", urgency="Dringend", category="To do", color="white", user=user, board=board3, description="fjsdlkjf skfjjfaslkfjksd jdkfjdksjfl k dk dkkd ")
+
+
+        board_json = serializers.serialize("json", [board1])
+        return HttpResponse(board_json, content_type='application/json')
+        
+
+    return
