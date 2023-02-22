@@ -22,6 +22,10 @@ from kanbanBoard.views import get_board, get_task, post_board, post_task, regist
 
 from kanbanBoard.views import testHtml
 from  django.conf.urls.static import static
+from django.conf import settings
+from django.conf.urls.static import static
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,4 +47,4 @@ urlpatterns = [
     path("change/user/", changeUser),
     path("delete/user/", deleteUser), 
     path("guestBoards/add/", add_guest_boards), 
-]
+] + staticfiles_urlpatterns()
