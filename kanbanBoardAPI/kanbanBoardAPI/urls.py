@@ -21,9 +21,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from kanbanBoard.views import get_board, get_task, post_board, post_task, register, logout_view, get_users_board, get_users_task, add_user_board, remove_user_board,deleteUser, get_user, changeCategory, changeUrgency, changeUser, add_guest_boards
 
 from kanbanBoard.views import testHtml
-from  django.conf.urls.static import static
-from django.conf import settings
-from django.conf.urls.static import static
+
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
