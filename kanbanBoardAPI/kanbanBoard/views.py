@@ -262,29 +262,29 @@ def add_guest_boards(request):
         user3 = User.objects.get(pk=56)
         # == Musk, Seehofer, Hamilton, Will Smith
         
-        board1 = Board.objects.create(name="Projekt 1")
+        board1 = Board.objects.create(name="Chat App")
         board1.users.add(request.user)
         board1.users.add(user1)
         board1.users.add(user2)
         board1.users.add(user3)
-        task = Task.objects.create(title="Projekt Start ", urgency="Dringend", category="In progress", color="white", user=user, board=board1, description="lorem ipsum  ")
-        task = Task.objects.create(title="Projekt Test", urgency="Dringend", category="Testing", color="white", user=user, board=board1, description="fjsdlkjf skfjjfaslkfjksd jdkfjdksjfl k dk dkkd ")
-        task = Task.objects.create(title="Projekt Präsentation", urgency="Dringend", category="To do", color="white", user=user, board=board1, description="jfkd dkjfsj kjdfjlsfjfj kdfj sjj k ")
+        task = Task.objects.create(title="coding the Backend", urgency="Dringend", category="In progress", color="white", user=user, board=board1, description="Designing the ERM Model for the Database. Realising with Django framework")
+        task = Task.objects.create(title="designing the App", urgency="Dringend", category="Testing", color="white", user=user, board=board1, description="Creating the UX Design of the whole App ")
+        task = Task.objects.create(title="testing", urgency="Dringend", category="To do", color="white", user=user, board=board1, description="Testing the App with jest")
 
-        board2 = Board.objects.create(name="Projekt 2")
+        board2 = Board.objects.create(name="CRM App")
         board2.users.add(request.user)
         board2.users.add(user1)
         board2.users.add(user2)
         board2.users.add(user3)
-        task = Task.objects.create(title="Erstellen der Website", urgency="Dringend", category="Done", color="white", user=user, board=board2, description="fjsdlkjf skfjjfaslkfjksd jdkfjdksjfl k dk dkkd ")
-        task = Task.objects.create(title="Hosting der Website", urgency="Dringend", category="In progress", color="white", user=user, board=board2, description="fjsdlkjf skfjjfaslkfjksd jdkfjdksjfl k dk dkkd ")
+        task = Task.objects.create(title="Erstellen der Website", urgency="Dringend", category="Done", color="white", user=user, board=board2, description="Coden des gesamten CRM Projekt anhand des Designs")
+        task = Task.objects.create(title="Hosting der Website", urgency="Dringend", category="In progress", color="white", user=user, board=board2, description="Hosting des CRMs ")
 
-        board3 = Board.objects.create(name="Projekt 3")
+        board3 = Board.objects.create(name="Notizen App")
         board3.users.add(request.user)
         board3.users.add(user1)
         board3.users.add(user2)
         board3.users.add(user3)
-        task = Task.objects.create(title="Verteilung der Aufgaben", urgency="Dringend", category="To do", color="white", user=user, board=board3, description="fjsdlkjf skfjjfaslkfjksd jdkfjdksjfl k dk dkkd ")
+        task = Task.objects.create(title="Zielgruppe?", urgency="Dringend", category="To do", color="white", user=user, board=board3, description="Für wen esrtellen wir das Produkt?")
 
 
         board_json = serializers.serialize("json", [board1])
